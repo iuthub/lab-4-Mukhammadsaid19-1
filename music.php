@@ -27,21 +27,21 @@
             if (isset($_REQUEST["playlist"])) {
                 $selected_playlist = $_REQUEST["playlist"];
 
-                $songs = file("songs/$selected_playlist");
+                $songs = file("songs/$selected_playlist", FILE_IGNORE_NEW_LINES);
 
                 $songs = array_map('append_dir', $songs);
 
                 $is_playlist = TRUE;
+
             } else {
                 $songs = glob("songs/*.mp3");
             }
             foreach ($songs as $song) {
-
                 $song_size = round_size(filesize($song));
                 ?>
 
                 <li class="mp3item">
-                    <a href=<?=$song?>><?=$song?></a>
+                    <a href='<?=$song?>' target="_blank"><?=basename($song)?></a>
                     (<?=$song_size?>)
                 </li>
         <?php
@@ -55,12 +55,12 @@
             foreach ($playlists as $playlist) {
                 ?>
         <li class="playlistitem">
-            <a href=<?="?playlist=".basename($playlist) ?>><?= $playlist?></a>
+            <a href='?playlist=<?=basename($playlist)?>'><?= basename($playlist)?></a>
         </li>
 
 
         <?php
-            }
+                }
             }
         ?>
 
